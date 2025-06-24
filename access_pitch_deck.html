@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Access Pitch Deck</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 40px; }
+    form { max-width: 400px; margin: auto; }
+    input, button { width: 100%; padding: 12px; margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <h2>Investor Access Required</h2>
+  <p>Please enter your details to view the pitch deck.</p>
+  <form id="accessForm">
+    <input type="text" id="name" placeholder="Your Full Name" required>
+    <input type="email" id="email" placeholder="Your Email" required>
+    <button type="submit">View Pitch Deck</button>
+  </form>
+
+  <div id="successMessage" style="display:none;">
+    <p>Thank you! Redirecting you to the deck...</p>
+  </div>
+
+  <script>
+    document.getElementById("accessForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+
+      fetch("https://sheetdb.io/api/v1/z9pph9xu80kwq", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: [{ name, email }] })
+      }).then(() => {
+        document.getElementById("accessForm").style.display = "none";
+        document.getElementById("successMessage").style.display = "block";
+        setTimeout(() => {
+          window.location.href = "https://www.canva.com/design/DAGmu6uE8BE/An81vCIhoapTKWOce2tS5A/edit?utm_content=DAGmu6uE8BE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton";
+        }, 1500);
+      });
+    });
+  </script>
+</body>
+</html>
